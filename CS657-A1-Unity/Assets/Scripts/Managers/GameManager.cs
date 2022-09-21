@@ -8,15 +8,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState GameState;
+    private bool hasStarted;
 
     void Awake()
     {
         Instance = this;
+        hasStarted = false;
     }
 
     public void StartGame()
     {
+        if (hasStarted) return;
         ChangeState(GameState.GenerateGridData);
+        hasStarted = true;
     }
 
     public void ChangeState(GameState newState)

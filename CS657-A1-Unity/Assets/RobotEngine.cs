@@ -18,7 +18,7 @@ public class RobotEngine
     private int Row;
     private int Col;
     private int Moves;
-    private Unity.Mathematics.Random rnd = new Unity.Mathematics.Random();
+    //private Unity.Mathematics.Random rnd = new Unity.Mathematics.Random();
     private int tempRowInner;
     private int tempColInner;
     private List<Vector2> boardMoves;
