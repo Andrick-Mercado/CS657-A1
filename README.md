@@ -29,5 +29,10 @@ Other Folders:
 * The folder called "Example Output" contains txt files which are outputs files the program has 
 made when executed on my machine
 -----------------------------------------------------------------------------------------------
-![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/readme-improvements/Output%20Example/UIExample.PNG)
+UI:
+![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/main/Output%20Example/UIExample.PNG)
+-----------------------------------------------------------------------------------------------
+TXT:
+![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/readme-improvements/Output%20Example/Output0.PNG)
+![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/readme-improvements/Output%20Example/Output1.PNG)
 
