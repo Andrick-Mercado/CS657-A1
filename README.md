@@ -4,7 +4,7 @@ By Andrick Mercado
 -----------------------------------------------------------------------------------------------
 Notes:
 * jupyter notebook works!
-* has cases were solution cannot be found rare (I know what the problem is but its hard to fix
+* has cases were solution cannot be found due to the logic the robot follows
 -----------------------------------------------------------------------------------------------
 How To Run:
 *if output is desired in text file run the python program inside the python folder and type 
@@ -20,6 +20,6 @@ given the values from the dropdowns
 Other Folders:
 * the first folder contains all the code used to make the user interface called "CS657-A1-Unity"
 * The folder called "Example Output" contains txt files which are outputs files the program has 
-made before when I was testing it
+made when executed on my machine
 -----------------------------------------------------------------------------------------------
 

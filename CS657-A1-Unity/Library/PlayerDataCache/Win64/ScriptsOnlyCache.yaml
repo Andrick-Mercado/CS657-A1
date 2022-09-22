@@ -17,6 +17,8 @@ ScriptsOnlyBuild:
     - UnityEditor.U2D.IK.IKEditorManager
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
+    - UnityEditor.Tilemaps.GridPaletteBrushes
+    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -69,51 +71,51 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1522}
+      Script: {instanceID: 1566}
     - Class: 114
-      Script: {instanceID: 1532}
+      Script: {instanceID: 1576}
     - Class: 114
-      Script: {instanceID: 1646}
+      Script: {instanceID: 1690}
     - Class: 114
-      Script: {instanceID: 1720}
+      Script: {instanceID: 1764}
     - Class: 114
-      Script: {instanceID: 1754}
-    - Class: 114
-      Script: {instanceID: 2254}
+      Script: {instanceID: 1798}
     - Class: 114
       Script: {instanceID: 2298}
     - Class: 114
-      Script: {instanceID: 2680}
+      Script: {instanceID: 2342}
     - Class: 114
-      Script: {instanceID: 2852}
+      Script: {instanceID: 2724}
     - Class: 114
-      Script: {instanceID: 3086}
+      Script: {instanceID: 2896}
     - Class: 114
-      Script: {instanceID: 3100}
+      Script: {instanceID: 3130}
     - Class: 114
-      Script: {instanceID: 3336}
-    - Class: 114
-      Script: {instanceID: 3348}
+      Script: {instanceID: 3144}
     - Class: 114
       Script: {instanceID: 3380}
     - Class: 114
-      Script: {instanceID: 3456}
+      Script: {instanceID: 3392}
     - Class: 114
-      Script: {instanceID: 4092}
+      Script: {instanceID: 3424}
     - Class: 114
-      Script: {instanceID: 4292}
+      Script: {instanceID: 3500}
     - Class: 114
-      Script: {instanceID: 4516}
+      Script: {instanceID: 4136}
     - Class: 114
-      Script: {instanceID: 4542}
+      Script: {instanceID: 4336}
     - Class: 114
-      Script: {instanceID: 4724}
+      Script: {instanceID: 4560}
     - Class: 114
-      Script: {instanceID: 4902}
+      Script: {instanceID: 4586}
     - Class: 114
-      Script: {instanceID: 5294}
+      Script: {instanceID: 4768}
     - Class: 114
-      Script: {instanceID: 5352}
+      Script: {instanceID: 4946}
+    - Class: 114
+      Script: {instanceID: 5338}
+    - Class: 114
+      Script: {instanceID: 5396}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -724,4 +726,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/Andrick/Documents/GitHub/CS657-A1/CS657-A1-Unity/Releases/CS657-A1-Unity.exe
+  playerPath: C:/Users/Andrick/Documents/GitHub/CS657-A1/Releases/CS657-A1-Unity.exe
