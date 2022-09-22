@@ -29,5 +29,5 @@ Other Folders:
 * The folder called "Example Output" contains txt files which are outputs files the program has 
 made when executed on my machine
 -----------------------------------------------------------------------------------------------
-![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/main/Report.pdf?raw = true)
+[embed]https://github.com/Andrick-Mercado/CS657-A1/blob/main/Report.pdf[/embed]
 
