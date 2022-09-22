@@ -55,7 +55,7 @@
      <Compile Include="Assets\Scripts\Units\Enemies\Enemy1.cs" />
      <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
      <Compile Include="Assets\Scripts\Units\BaseUnit.cs" />
-     <Compile Include="Assets\StudentSolution.cs" />
+     <Compile Include="Assets\Scripts\Robot\StudentSolution.cs" />
      <Compile Include="Assets\Scripts\Units\Enemies\BaseEnemy.cs" />
      <Compile Include="Assets\Scripts\Tiles\GrassTile.cs" />
      <Compile Include="Assets\Scripts\Managers\UnitManager.cs" />
@@ -63,7 +63,7 @@
      <Compile Include="Assets\Scripts\Tiles\Tile.cs" />
      <Compile Include="Assets\Scripts\Tiles\MountainTile.cs" />
      <Compile Include="Assets\Scripts\Units\Heroes\Hero1.cs" />
-     <Compile Include="Assets\RobotEngine.cs" />
+     <Compile Include="Assets\Scripts\Robot\Engine\RobotEngine.cs" />
      <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\Scripts\Units\ScriptableUnit.cs" />
      <Compile Include="Assets\Scripts\Units\Heroes\BaseHero.cs" />
