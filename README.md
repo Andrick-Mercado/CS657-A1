@@ -2,6 +2,12 @@
 CS 657 Intelligent Systems - Assignment 1 rule-base expert system setting
 By Andrick Mercado
 -----------------------------------------------------------------------------------------------
+Task:
+* You must develop your program in the rule-base expert system setting consisting of a rule 
+base,and a data-base (map of the environment discovered so far), After each move you must go 
+through the if-then rules sequentially and use the data-base to determine which rule is fired 
+(see forward and backwardchaining)
+-----------------------------------------------------------------------------------------------
 Notes:
 * jupyter notebook works!
 * has cases were solution cannot be found due to the logic the robot follows
@@ -23,4 +29,5 @@ Other Folders:
 * The folder called "Example Output" contains txt files which are outputs files the program has 
 made when executed on my machine
 -----------------------------------------------------------------------------------------------
+![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/main/Report.pdf?raw = true)
 
