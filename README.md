@@ -7,7 +7,8 @@ Notes:
 * has cases were solution cannot be found due to the logic the robot follows
 -----------------------------------------------------------------------------------------------
 How To Run:
-*if output is desired in text file run the python program inside the python folder and type 
+
+* if output is desired in text file run the python program inside the python folder and type 
 in a directory the program create a file named output.txt in the given directory, can choose 
 between default values or values selected by the user, if there is an error on the input given 
 for example wrong indexes the program will just fail as I did not implement error catching.
