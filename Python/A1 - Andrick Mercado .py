@@ -872,7 +872,7 @@ class StudentSolution:
 ''' TESTING ZONE'''
 isRandom = input("Should this test be made with pre designated values? (0 is false, 1 is true) : ")
 if int(isRandom) == 0:
-    fileName = str(input("where is the output directory? : "))
+    fileName = str(input("where is the output directory? ex C:\\\\Users\\\\name\\\\Desktop : "))
     sizeRows = int(input("how many rows should this test run have? : "))
     sizeCols = int(input("how many columns should this test run have? : "))
     startLocRow = int(input("What row should the robot start in? : "))
