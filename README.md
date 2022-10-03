@@ -29,5 +29,5 @@ Other Folders:
 made when executed on my machine
 -----------------------------------------------------------------------------------------------
 UI example:
-![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/main/Output%20Example/UIExample.PNG)
+![alt text](https://github.com/Andrick-Mercado/CS657-A1/blob/main/Output%20Example/UIExample.gif)
 -----------------------------------------------------------------------------------------------
