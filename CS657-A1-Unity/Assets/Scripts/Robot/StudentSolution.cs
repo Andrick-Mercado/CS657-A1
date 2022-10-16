@@ -41,7 +41,7 @@ public class StudentSolution : MonoBehaviour
     public void GenerateValuesArray()
     {
         RobotEngine test = new RobotEngine(35, 45, 5, 7, 30, 40, direction, envirement, maxMoves);
-        test.solution();
+        test.Solution();
         test.print_robot_moves_map();
 
         movesGraph = test.GetBoardMoves();

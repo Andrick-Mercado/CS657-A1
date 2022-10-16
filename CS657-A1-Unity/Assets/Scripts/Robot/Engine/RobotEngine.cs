@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RobotEngine
 {
@@ -151,458 +153,111 @@ public class RobotEngine
         return Moves;
     }
 
-    public void solution()
+    public void Solution()
     {
         while (Moves < maxMoves)
         {
-            bool isDirectionValid = false;
             this.tempRowInner = -1;
             this.tempColInner = -1;
 
-            if (robotSensors()) //sensor checks obstacles 
+            if (RobotSensors()) //sensor checks obstacles 
             {
                 if (this.board[this.Row, this.Col] == -10)
                 {
                     break;
                 }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
-
+            
             /* Here the regular rules */
             //north
-            if (direction == Direction.NORTH) //forward
+            if (CheckDirection(direction))
             {
-                checkNorth(); // perform more if statements with similarity being north
-                isDirectionValid = true;
+                if (board[Row, Col] == -10)
+                {
+                    break;
+                }
+                continue;
             }
+            // perform more if statements with similarity being north
 
             if (board[Row, Col] == -10)
             {
                 break;
             }
 
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
+            if ((this.tempRowInner == -1 || this.tempColInner == -1) )
             {
-                direction = Direction.WEST; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.WEST));
+                direction = RobotTurn(direction);; //-2 to do a turn
+                boardMoves.Add(new Vector2(-5, direction));
                 Moves++; 
                 continue;
             }
 
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //northeast
-            if (direction == Direction.NORTHEAST) //topright
-            {
-                checkNorthEast();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.NORTHWEST; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.NORTHWEST));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //east
-            if (direction == Direction.EAST) //right
-            {
-                checkEast();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.NORTH; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.NORTH));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //southeast
-            if (direction == Direction.SOUTHEAST) //bottomright
-            {
-                checkSouthEast();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.NORTHEAST; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.NORTHEAST));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //south
-            if (direction == Direction.SOUTH) //bottomright
-            {
-                checkSouth();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.EAST; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.EAST));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //southwest
-            if (direction == Direction.SOUTHWEST) //bottomright
-            {
-                checkSouthWest();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.SOUTHEAST; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.SOUTHEAST));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //west
-            if (direction == Direction.WEST) //bottomright
-            {
-                checkWest();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.SOUTH; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.SOUTH));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-            //northwest
-            if (direction == Direction.NORTHWEST) //bottomright
-            {
-                checkNorthWest();
-                isDirectionValid = true;
-            }
-
-            if (board[Row, Col] == -10)
-            {
-                break;
-            }
-
-            if ((this.tempRowInner == -1 || this.tempColInner == -1) && isDirectionValid)
-            {
-                direction = Direction.SOUTHWEST; //-2 to do a turn
-                boardMoves.Add(new Vector2(-5, Direction.SOUTHWEST));
-                Moves++; //Moves + 1
-                continue;
-            }
-
-            if (isDirectionValid)
-            {
-                continue;
-            }
-
-
-            Debug.Log("here to prevent infinite loop");
+            //here to prevent infinite loop
             Moves++;
+        }
+    }
+
+    private int RobotTurn(int rawDirection)
+    {
+        switch (rawDirection)
+        {
+            case 1:
+                return 7;
+            case 0:
+                return 6;
+            default:
+                return rawDirection - 2;
         }
     }
 
 
     /* RULES FOR REGULAR IF THAN  */
-    private void checkNorth()
+    private bool CheckDirection(int rawDirection)
     {
-        int cordsx = -1;
-        int cordsy = -1;
+        int cordsX = -1;
+        int cordsY = -1;
         int straightCell = -1;
-        bool straightCellSmaller = false;
         int leftCell = -1;
-        bool leftCellSmaller = false;
         int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Row - 1 >= 0)
-        {
-            straightCell = board_robot_moves[Row - 1, Col];
-            straightCellSmaller = false;
-        }
-
-        if (Row - 1 >= 0 && Col - 1 >= 0)
-        {
-            leftCell = board_robot_moves[Row - 1, Col - 1];
-            leftCellSmaller = false;
-        }
-
-        if (Row - 1 >= 0 && Col + 1 < board.GetLength(1))
-        {
-            rightCell = board_robot_moves[Row - 1, Col + 1];
-            rightCellSmaller = false;
-        }
-
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.NORTH;
-            cordsx = (Row - 1);
-            cordsy = (Col); //(deepcopy(Row) - 1) , (deepcopy(Col))
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.NORTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHWEST));
-            cordsx = Row - 1;
-            cordsy = Col - 1; //(deepcopy(Row) - 1) , (deepcopy(Col) - 1)
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.NORTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHEAST));
-            cordsx = Row - 1;
-            cordsy = Col + 1; //(deepcopy(Row) - 1) , (deepcopy(Col) + 1)
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //deepcopy(cordsx)
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //#Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-
-    private void checkNorthEast()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
         bool straightCellSmaller = false;
-        int leftCell = -1;
         bool leftCellSmaller = false;
-        int rightCell = -1;
         bool rightCellSmaller = false;
-        if (Row - 1 >= 0 && Col + 1 < board.GetLength(1))
+        int normalizedLeftDirection = rawDirection - 1 < 0 ? 7 : rawDirection - 1;
+        int normalizedRightDirection = (rawDirection + 1) % 8;
+        bool resultMoved = false;
+
+        try
         {
-            straightCell = board_robot_moves[Row - 1, Col + 1];
-            straightCellSmaller = false;
+            straightCell = board_robot_moves[Row + RowChanger(rawDirection), Col + ColChanger(rawDirection)];
+        }
+        catch (Exception error)
+        {
+            Debug.Log("Wall Hit"); 
+        }
+        
+        try
+        {
+            leftCell = board_robot_moves[Row + RowChanger(normalizedLeftDirection), Col + ColChanger(normalizedLeftDirection)];
+        }
+        catch (Exception error)
+        {
+            Debug.Log("Wall Hit"); 
         }
 
-        if (Row - 1 >= 0)
+        try
         {
-            leftCell = board_robot_moves[Row - 1, Col];
-            leftCellSmaller = false;
+            rightCell = board_robot_moves[Row + RowChanger(normalizedRightDirection), Col + ColChanger(normalizedRightDirection)];
         }
-
-        if (Col + 1 < board.GetLength(1))
+        catch (Exception error)
         {
-            rightCell = board_robot_moves[Row, Col + 1];
-            rightCellSmaller = false;
+            Debug.Log("Wall Hit"); 
         }
 
         if (straightCell == -1)
         {
-            straightCell = maxMoves + 1;
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.NORTHEAST;
-            cordsx = Row - 1;
-            cordsy = Col + 1; //(deepcopy(Row) - 1) , (deepcopy(Col) + 1)
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.NORTH;
-            boardMoves.Add(new Vector2(-5, Direction.NORTH));
-            cordsx = Row - 1;
-            cordsy = Col; //(deepcopy(Row) - 1) , (deepcopy(Col))
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.EAST;
-            boardMoves.Add(new Vector2(-5, Direction.EAST));
-            cordsx = Row;
-            cordsy = Col + 1; //(deepcopy(Row)) , (deepcopy(Col) + 1)
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //deepcopy(cordsx)
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-    private void checkEast()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
-        bool straightCellSmaller = false;
-        int leftCell = -1;
-        bool leftCellSmaller = false;
-        int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Col + 1 < board.GetLength(1))
-        {
-            straightCell = board_robot_moves[Row, Col + 1];
-            straightCellSmaller = false;
-        }
-
-        if (Row - 1 >= 0 && Col + 1 < board.GetLength(1))
-        {
-            leftCell = board_robot_moves[Row - 1, Col + 1];
-            leftCellSmaller = false;
-        }
-
-        if (Row + 1 < board.GetLength(0) && Col + 1 < board.GetLength(1))
-        {
-            rightCell = board_robot_moves[Row + 1, Col + 1];
-            rightCellSmaller = false;
-        }
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1;
+            straightCell = maxMoves + 1; 
         }
 
         if (leftCell == -1)
@@ -612,7 +267,7 @@ public class RobotEngine
 
         if (rightCell == -1)
         {
-            rightCell = maxMoves + 1;
+            rightCell = maxMoves + 1; 
         }
 
         if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
@@ -632,561 +287,54 @@ public class RobotEngine
 
         if (straightCellSmaller)
         {
-            direction = Direction.EAST;
-            cordsx = Row;
-            cordsy = Col + 1; //(deepcopy(Row)) , (deepcopy(Col) + 1)
+            direction = rawDirection;
+            cordsX = Row + RowChanger(rawDirection);
+            cordsY = Col + ColChanger(rawDirection);
         }
 
         if (leftCellSmaller)
         {
-            direction = Direction.NORTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHEAST));
-            cordsx = Row - 1;
-            cordsy = Col + 1; //(deepcopy(Row) - 1) , (deepcopy(Col) + 1)
+            direction = normalizedLeftDirection;
+            boardMoves.Add(new Vector2(-5, normalizedLeftDirection));
+            cordsX = Row + RowChanger(normalizedLeftDirection);
+            cordsY = Col + ColChanger(normalizedLeftDirection);
         }
 
         if (rightCellSmaller)
         {
-            direction = Direction.SOUTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHEAST));
-            cordsx = Row + 1;
-            cordsy = Col + 1; //(deepcopy(Row) + 1) , (deepcopy(Col) + 1)
+            direction = normalizedRightDirection;
+            boardMoves.Add(new Vector2(-5, normalizedRightDirection));
+            cordsX = Row + RowChanger(normalizedRightDirection);
+            cordsY = Col + ColChanger(normalizedRightDirection);
         }
 
-        if (cordsx != -1 || cordsy != -1)
+        if (cordsX != -1 || cordsY != -1)
         {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //deepcopy(cordsx)
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //Moves + 1
+            boardMoves.Add(new Vector2(cordsX, cordsY));
+            Row = cordsX; 
+            Col = cordsY; 
+            Moves++; 
             board_robot_moves[Row, Col] += 1;
+            resultMoved = true;
         }
 
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-    private void checkSouthEast()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
-        bool straightCellSmaller = false;
-        int leftCell = -1;
-        bool leftCellSmaller = false;
-        int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Row + 1 < board.GetLength(0) && Col + 1 < board.GetLength(1))
-        {
-            straightCell = board_robot_moves[Row + 1, Col + 1];
-            straightCellSmaller = false;
-        }
-
-        if (Col + 1 < board.GetLength(1))
-        {
-            leftCell = board_robot_moves[Row, Col + 1];
-            leftCellSmaller = false;
-        }
-
-        if (Row + 1 < board.GetLength(0))
-        {
-            rightCell = board_robot_moves[Row + 1, Col];
-            rightCellSmaller = false;
-        }
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.SOUTHEAST;
-            cordsx = Row + 1;
-            cordsy = Col + 1; //(deepcopy(Row) + 1) , (deepcopy(Col) + 1)
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.EAST;
-            boardMoves.Add(new Vector2(-5, Direction.EAST));
-            cordsx = Row;
-            cordsy = Col + 1; //(deepcopy(Row)) , (deepcopy(Col) + 1)
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.SOUTH;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTH));
-            cordsx = Row + 1;
-            cordsy = Col; //(deepcopy(Row) + 1) , (deepcopy(Col))
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx;
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-
-    private void checkSouth()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
-        bool straightCellSmaller = false;
-        int leftCell = -1;
-        bool leftCellSmaller = false;
-        int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Row + 1 < board.GetLength(0))
-        {
-            straightCell = board_robot_moves[Row + 1, Col];
-            straightCellSmaller = false;
-        }
-
-        if (Row + 1 < board.GetLength(0) && Col + 1 < board.GetLength(1))
-        {
-            leftCell = board_robot_moves[Row + 1, Col + 1];
-            leftCellSmaller = false;
-        }
-
-        if (Row + 1 < board.GetLength(0) && Col - 1 >= 0)
-        {
-            rightCell = board_robot_moves[Row + 1, Col - 1];
-            rightCellSmaller = false;
-        }
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.SOUTH;
-            cordsx = Row + 1;
-            cordsy = Col; // (deepcopy(Row) + 1) , (deepcopy(Col))
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.SOUTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHEAST));
-            cordsx = Row + 1;
-            cordsy = Col + 1; //(deepcopy(Row) + 1) , (deepcopy(Col) + 1)
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.SOUTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHWEST));
-            cordsx = Row + 1;
-            cordsy = Col - 1; //(deepcopy(Row) + 1) , (deepcopy(Col) - 1)
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //deepcopy(cordsx)
-            Col = cordsy;
-            Moves++; //Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-
-    private void checkSouthWest()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
-        bool straightCellSmaller = false;
-        int leftCell = -1;
-        bool leftCellSmaller = false;
-        int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Row + 1 < board.GetLength(0) && Col - 1 >= 0)
-        {
-            straightCell = board_robot_moves[Row + 1, Col - 1];
-            straightCellSmaller = false;
-        }
-
-        if (Row + 1 < board.GetLength(0))
-        {
-            leftCell = board_robot_moves[Row + 1, Col];
-            leftCellSmaller = false;
-        }
-
-        if (Col - 1 >= 0)
-        {
-            rightCell = board_robot_moves[Row, Col - 1];
-            rightCellSmaller = false;
-        }
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.SOUTHWEST;
-            cordsx = Row + 1;
-            cordsy = Col - 1; //(deepcopy(Row) + 1) , (deepcopy(Col) - 1)
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.SOUTH;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTH));
-            cordsx = Row + 1;
-            cordsy = Col; //(deepcopy(Row) + 1) , (deepcopy(Col))
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.WEST;
-            boardMoves.Add(new Vector2(-5, Direction.WEST));
-            cordsx = Row;
-            cordsy = Col - 1; //(deepcopy(Row)) , (deepcopy(Col) - 1)
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //deepcopy(cordsx)
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-
-    private void checkWest()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
-        bool straightCellSmaller = false;
-        int leftCell = -1;
-        bool leftCellSmaller = false;
-        int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Col - 1 >= 0)
-        {
-            straightCell = board_robot_moves[Row, Col - 1];
-            straightCellSmaller = false;
-        }
-
-        if (Row + 1 < board.GetLength(0) && Col - 1 >= 0)
-        {
-            leftCell = board_robot_moves[Row + 1, Col - 1];
-            leftCellSmaller = false;
-        }
-
-        if (Row - 1 >= 0 && Col - 1 >= 0)
-        {
-            rightCell = board_robot_moves[Row - 1, Col - 1];
-            rightCellSmaller = false;
-        }
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.WEST;
-            cordsx = Row;
-            cordsy = Col - 1; //(deepcopy(Row)) , (deepcopy(Col) - 1)
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.SOUTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHWEST));
-            cordsx = Row + 1;
-            cordsy = Col - 1; // (deepcopy(Row) + 1) , (deepcopy(Col) - 1)
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.NORTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHWEST));
-            cordsx = Row - 1;
-            cordsy = Col - 1; //(deepcopy(Row) - 1) , (deepcopy(Col) - 1)
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //(cordsx)
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
-    }
-
-    private void checkNorthWest()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        int straightCell = -1;
-        bool straightCellSmaller = false;
-        int leftCell = -1;
-        bool leftCellSmaller = false;
-        int rightCell = -1;
-        bool rightCellSmaller = false;
-
-        if (Row - 1 >= 0 && Col - 1 >= 0)
-        {
-            straightCell = board_robot_moves[Row - 1, Col - 1];
-            straightCellSmaller = false;
-        }
-
-        if (Col - 1 >= 0)
-        {
-            leftCell = board_robot_moves[Row, Col - 1];
-            leftCellSmaller = false;
-        }
-
-        if (Row - 1 >= 0)
-        {
-            rightCell = board_robot_moves[Row - 1, Col];
-            rightCellSmaller = false;
-        }
-
-        if (straightCell == -1)
-        {
-            straightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (leftCell == -1)
-        {
-            leftCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (rightCell == -1)
-        {
-            rightCell = maxMoves + 1; //deepcopy(maxMoves) + 1
-        }
-
-        if (straightCell <= leftCell && straightCell <= rightCell && straightCell != maxMoves + 1)
-        {
-            straightCellSmaller = true;
-        }
-
-        if (leftCell <= rightCell && leftCell != maxMoves + 1 && !straightCellSmaller)
-        {
-            leftCellSmaller = true;
-        }
-
-        if (rightCell != maxMoves + 1 && !straightCellSmaller && !leftCellSmaller)
-        {
-            rightCellSmaller = true;
-        }
-
-        if (straightCellSmaller)
-        {
-            direction = Direction.NORTHWEST;
-            cordsx = Row - 1;
-            cordsy = Col - 1; //(deepcopy(Row) - 1) , (deepcopy(Col) - 1)
-        }
-
-        if (leftCellSmaller)
-        {
-            direction = Direction.WEST;
-            boardMoves.Add(new Vector2(-5, Direction.WEST));
-            cordsx = Row;
-            cordsy = Col - 1; //(deepcopy(Row)) , (deepcopy(Col) - 1)
-        }
-
-        if (rightCellSmaller)
-        {
-            direction = Direction.NORTH;
-            boardMoves.Add(new Vector2(-5, Direction.NORTH));
-            cordsx = Row - 1;
-            cordsy = Col; //(deepcopy(Row) - 1) , (deepcopy(Col))
-        }
-
-        if (cordsx != -1 || cordsy != -1)
-        {
-            boardMoves.Add(new Vector2(cordsx, cordsy));
-            Row = cordsx; //deepcopy(cordsx)
-            Col = cordsy; //deepcopy(cordsy)
-            Moves++; //Moves + 1
-            board_robot_moves[Row, Col] += 1;
-        }
-
-        tempRowInner = cordsx;
-        tempColInner = cordsy;
+        tempRowInner = cordsX;
+        tempColInner = cordsY;
+        return resultMoved;
     }
 
 
     /* SENSOR FUNCTION CALLS THE OTHER NEEDED SENSORS */
 
-    private bool robotSensors()
+    private bool RobotSensors()
     {
-        if (direction == Direction.NORTH)
-        {
-            directionNorth();
-        }
-        else if (direction == Direction.NORTHEAST)
-        {
-            directionNorthEast();
-        }
-        else if (direction == Direction.EAST)
-        {
-            directionEast();
-        }
-        else if (direction == Direction.SOUTHEAST)
-        {
-            directionSouthEast();
-        }
-        else if (direction == Direction.SOUTH)
-        {
-            directionSouth();
-        }
-        else if (direction == Direction.SOUTHWEST)
-        {
-            directionSouthWest();
-        }
-        else if (direction == Direction.WEST)
-        {
-            directionWest();
-        }
-        else if (direction == Direction.NORTHWEST)
-        {
-            directionNorthWest();
-        }
+        SensorAtDirection(this.direction);
 
         if (tempRowInner != -1 || tempColInner != -1)
         {
             boardMoves.Add(new Vector2(tempRowInner, tempColInner));
-            Row = tempRowInner; //deepcopy(tempRow)
-            Col = tempColInner; //deepcopy(tempCol)
+            Row = tempRowInner; 
+            Col = tempColInner; 
             Moves++;
             board_robot_moves[Row, Col] += 1;
             return true;
@@ -1198,263 +346,53 @@ public class RobotEngine
 
     /* FUNCTIONS BELOW ARE USED FOR SENSORS */
 
-    private void directionNorth()
+    private void SensorAtDirection(int rawDirection)
     {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (North())
+        int cordsX = -1;
+        int cordsY = -1;
+        int normalizedLeftDirection = rawDirection - 1 < 0 ? 7 : rawDirection - 1;
+        int normalizedRightDirection = (rawDirection + 1) % 8;
+        
+        if (SensorDetectsGoal(rawDirection))
         {
-            direction = Direction.NORTH;
-            cordsx = (Row - 1);
-            cordsy = Col; // (deepcopy(Row) - 1) , (deepcopy(Col))
+            direction = rawDirection;
+            cordsX = Row + RowChanger(rawDirection); 
+            cordsY = Col + ColChanger(rawDirection); 
         }
 
-        if (NorthWest())
+        if (SensorDetectsGoal(normalizedLeftDirection))
         {
-            direction = Direction.NORTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHWEST));
-            cordsx = (Row - 1);
-            cordsy = (Col - 1); // (deepcopy(Row) - 1) , (deepcopy(Col) - 1)
+            direction = normalizedLeftDirection;
+            boardMoves.Add(new Vector2(-5, normalizedLeftDirection));
+            cordsX = Row + RowChanger(normalizedLeftDirection);
+            cordsY = Col + ColChanger(normalizedLeftDirection);
         }
 
-        if (NorthEast())
+        
+        if (SensorDetectsGoal(normalizedRightDirection))
         {
-            direction = Direction.NORTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHEAST));
-            cordsx = (Row - 1);
-            cordsy = (Col + 1); // (deepcopy(Row) - 1) , (deepcopy(Col) +1)
+            direction = normalizedRightDirection;
+            boardMoves.Add(new Vector2(-5, normalizedRightDirection));
+            cordsX = Row + RowChanger(normalizedRightDirection);
+            cordsY = Col + ColChanger(normalizedRightDirection); 
         }
 
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
+        this.tempRowInner = cordsX;
+        this.tempColInner = cordsY;
     }
 
-    private void directionNorthEast()
+    private bool SensorDetectsGoal(int rawDirection)
     {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (NorthEast())
-        {
-            direction = Direction.NORTHEAST;
-            cordsx = (Row - 1);
-            cordsy = (Col + 1); //(deepcopy(Row) - 1) , (deepcopy(Col) +1)
-        }
-
-        if (North())
-        {
-            direction = Direction.NORTH;
-            boardMoves.Add(new Vector2(-5, Direction.NORTH));
-            cordsx = (Row - 1);
-            cordsy = Col; //(deepcopy(Row) - 1) , (deepcopy(Col))
-        }
-
-        if (East())
-        {
-            direction = Direction.EAST;
-            boardMoves.Add(new Vector2(-5, Direction.EAST));
-            cordsx = (Row);
-            cordsy = (Col + 1); //(deepcopy(Row) ) , (deepcopy(Col) +1)
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-    private void directionEast()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (East())
-        {
-            direction = Direction.EAST;
-            cordsx = (Row);
-            cordsy = (Col + 1); // (deepcopy(Row) ) , (deepcopy(Col) +1) 
-        }
-
-        if (NorthEast())
-        {
-            direction = Direction.NORTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHEAST));
-            cordsx = (Row - 1);
-            cordsy = (Col + 1); //(deepcopy(Row) - 1) , (deepcopy(Col) +1)
-        }
-
-        if (SouthEast())
-        {
-            direction = Direction.SOUTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHEAST));
-            cordsx = (Row + 1);
-            cordsy = (Col + 1); //(deepcopy(Row) +1) , (deepcopy(Col) +1) 
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-    private void directionSouthEast()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (SouthEast())
-        {
-            direction = Direction.SOUTHEAST;
-            cordsx = (Row + 1);
-            cordsy = (Col + 1); //(deepcopy(Row) +1) , (deepcopy(Col) +1)  
-        }
-
-        if (East())
-        {
-            direction = Direction.EAST;
-            boardMoves.Add(new Vector2(-5, Direction.EAST));
-            cordsx = (Row);
-            cordsy = (Col + 1); //(deepcopy(Row) ) , (deepcopy(Col) +1)
-        }
-
-        if (South())
-        {
-            direction = Direction.SOUTH;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTH));
-            cordsx = (Row + 1);
-            cordsy = (Col); //(deepcopy(Row) +1), (deepcopy(Col))
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-    private void directionSouth()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (South())
-        {
-            direction = Direction.SOUTH;
-            cordsx = (Row + 1);
-            cordsy = Col; //(deepcopy(Row) +1), (deepcopy(Col))
-        }
-
-        if (SouthEast())
-        {
-            direction = Direction.SOUTHEAST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHEAST));
-            cordsx = (Row + 1);
-            cordsy = (Col + 1); //(deepcopy(Row) +1) , (deepcopy(Col) +1)
-        }
-
-        if (SouthWest())
-        {
-            direction = Direction.SOUTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHWEST));
-            cordsx = (Row + 1);
-            cordsy = (Col - 1); //(deepcopy(Row) +1) , (deepcopy(Col) -1)
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-    private void directionSouthWest()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (SouthWest())
-        {
-            direction = Direction.SOUTHWEST;
-            cordsx = (Row + 1);
-            cordsy = (Col - 1); //(deepcopy(Row) +1) , (deepcopy(Col) -1)
-        }
-
-        if (South())
-        {
-            direction = Direction.SOUTH;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTH));
-            cordsx = (Row + 1);
-            cordsy = (Col); //(deepcopy(Row) +1), (deepcopy(Col))
-        }
-
-        if (West())
-        {
-            direction = Direction.WEST;
-            boardMoves.Add(new Vector2(-5, Direction.WEST));
-            cordsx = Row;
-            cordsy = (Col - 1); // (deepcopy(Row) ) , (deepcopy(Col) -1) 
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-    private void directionWest()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (West())
-        {
-            direction = Direction.WEST;
-            cordsx = Row;
-            cordsy = (Col - 1); //(deepcopy(Row) ) , (deepcopy(Col) -1)
-        }
-
-        if (SouthWest())
-        {
-            direction = Direction.SOUTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.SOUTHWEST));
-            cordsx = (Row + 1);
-            cordsy = (Col - 1); //deepcopy(Row) +1) , (deepcopy(Col) -1)
-        }
-
-        if (NorthWest())
-        {
-            direction = Direction.NORTHWEST;
-            boardMoves.Add(new Vector2(-5, Direction.NORTHWEST));
-            cordsx = (Row - 1);
-            cordsy = (Col - 1); //(deepcopy(Row) -1), (deepcopy(Col) -1)
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-    private void directionNorthWest()
-    {
-        int cordsx = -1;
-        int cordsy = -1;
-        if (NorthWest())
-        {
-            direction = Direction.NORTHWEST;
-            cordsx = (Row - 1); //deepcopy
-            cordsy = (Col - 1); //deepcopy
-        }
-
-        if (West())
-        {
-            direction = Direction.WEST;
-            boardMoves.Add(new Vector2(-5, Direction.WEST));
-            cordsx = Row; //(deepcopy(Row))
-            cordsy = (Col - 1); //deepcopy
-        }
-
-        if (North())
-        {
-            direction = Direction.NORTH;
-            boardMoves.Add(new Vector2(-5, Direction.NORTH));
-            cordsx = (Row - 1);
-            cordsy = (Col); //(deepcopy(Row) - 1), (deepcopy(Col)))
-        }
-
-        this.tempRowInner = cordsx;
-        this.tempColInner = cordsy;
-    }
-
-
-    private bool North()
-    {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
+        int tempRow = Row; 
+        int tempCol = Col; 
         bool isFoundGoal = false;
-        while (tempRow - 1 >= 0)
+        int rowChanger = RowChanger(rawDirection);
+        int colChanger = ColChanger(rawDirection);
+        
+        while (CheckOutOfBounds(tempRow, tempCol))
         {
-            tempRow = tempRow - 1;
+            tempRow += rowChanger;
+            tempCol += colChanger;
             if (Actual_Map[tempRow, tempCol] == 1)
             {
                 board[tempRow, tempCol] = 1;
@@ -1472,192 +410,40 @@ public class RobotEngine
 
         return isFoundGoal;
     }
+    
 
-    private bool NorthEast()
+    private static int RowChanger(int directionSensor)
     {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempRow - 1 >= 0 && tempCol + 1 < board.GetLength(1))
+        return directionSensor switch
         {
-            tempRow = tempRow - 1;
-            tempCol = tempCol + 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
+            Direction.NORTH => -1,
+            Direction.NORTHEAST => -1,
+            Direction.SOUTHEAST => 1,
+            Direction.SOUTH => 1,
+            Direction.SOUTHWEST => 1,
+            Direction.NORTHWEST => -1,
+            _ => 0
+        };
+    }
+    
+    private static int ColChanger(int directionSensor)
+    {
+        return directionSensor switch
+        {
+            Direction.NORTHEAST => 1,
+            Direction.EAST => 1,
+            Direction.SOUTHEAST => 1,
+            Direction.SOUTHWEST => -1,
+            Direction.WEST => -1,
+            Direction.NORTHWEST => -1,
+            _ => 0
+        };
     }
 
-    private bool East()
+    private bool CheckOutOfBounds(int tempRow, int tempCol)
     {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempCol + 1 < board.GetLength(1))
-        {
-            tempCol = tempCol + 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
-    }
-
-    private bool SouthEast()
-    {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempRow + 1 < board.GetLength(0) && tempCol + 1 < board.GetLength(1))
-        {
-            tempRow = tempRow + 1;
-            tempCol = tempCol + 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
-    }
-
-    private bool South()
-    {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempRow + 1 < board.GetLength(0))
-        {
-            tempRow = tempRow + 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
-    }
-
-
-    private bool SouthWest()
-    {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempRow + 1 < board.GetLength(0) && tempCol - 1 >= 0)
-        {
-            tempRow = tempRow + 1;
-            tempCol = tempCol - 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
-    }
-
-    private bool West()
-    {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempCol - 1 >= 0)
-        {
-            tempCol = tempCol - 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
-    }
-
-    private bool NorthWest()
-    {
-        int tempRow = Row; //deepcopy(Row)
-        int tempCol = Col; //deepcopy(Col)
-        bool isFoundGoal = false;
-        while (tempRow - 1 >= 0 && tempCol - 1 >= 0)
-        {
-            tempRow = tempRow - 1;
-            tempCol = tempCol - 1;
-            if (Actual_Map[tempRow, tempCol] == 1)
-            {
-                board[tempRow, tempCol] = 1;
-            }
-            else if (Actual_Map[tempRow, tempCol] == 0)
-            {
-                board[tempRow, tempCol] = 0;
-                break;
-            }
-            else if (Actual_Map[tempRow, tempCol] == -10)
-            {
-                isFoundGoal = true;
-            }
-        }
-
-        return isFoundGoal;
+        return tempRow - 1 >= 0 && tempCol - 1 >= 0 && tempRow + 1 < board.GetLength(0) &&
+               tempCol + 1 < board.GetLength(1);
     }
 }
 
